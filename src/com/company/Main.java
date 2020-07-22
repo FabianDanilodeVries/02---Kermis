@@ -1,4 +1,6 @@
 package com.company;
+import java.net.StandardSocketOptions;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -13,13 +15,22 @@ public class Main {
 
 class Kassa {
     double totaleOmzet;
-    Attractie botsAuto = new BotsAuto("Botsauto's", 5.0, 0, 50);
-    Attractie spin = new BotsAuto("Spin", 5.0, 0,50);
-    Attractie spiegelpaleis = new BotsAuto("Spiegelpaleis", 5.0, 0,50);
+    int totaalAantalKaartjes;
+    Attractie botsAuto = new BotsAuto("Botsauto's", 2.5, 0,0, 50);
+    Attractie spin = new Spin("Spin", 2.25, 0,0,50);
+    Attractie spiegelPaleis = new SpiegelPaleis("Spiegel paleis", 2.75, 0,0,50);
+    Attractie spookhuis = new Spookhuis("Spookhuis", 3.20, 0,0,50);
+    Attractie hawaii = new Hawaii("Hawaii", 2.90, 0,0,50);
+    Attractie ladderKlimmen = new LadderKlimmen("Ladder klimmen", 5.0, 0,0,50);
+    Attractie[] attracties = { botsAuto, spin, spiegelPaleis, spookhuis, hawaii, ladderKlimmen};
+
+
     void draaien(Attractie keuze) {
         System.out.println(keuze.attractieNaam + " draait");
-        keuze.attractieOmzet += keuze.attractiePrijs;
-        totaleOmzet += keuze.attractiePrijs;
+        keuze.aantalKaartjes++;
+        totaalAantalKaartjes++;
+        keuze.attractieOmzet =  keuze.attractieOmzet + keuze.attractiePrijs;
+        totaleOmzet = totaleOmzet + keuze.attractiePrijs;
     }
 
     void starten() {
@@ -29,7 +40,13 @@ class Kassa {
             switch (attractieKeuze) {
                 case "stop":
                     doorgaan = false;
-                    System.out.println("De totale omzet is: " + totaleOmzet);
+                    for(Attractie i : attracties) {
+                        if (i.aantalKaartjes > 0) {
+                            System.out.println(i.attractieNaam + " - Kaartjes: " + i.aantalKaartjes + ", Omzet: " + i.attractieOmzet + " euro");
+                        }
+                    }
+                    System.out.println("Er zijn totaal " + totaalAantalKaartjes + " kaartjes verkocht");
+                    System.out.println("De totale omzet is: " + totaleOmzet + " euro");
                     break;
                 case "1":
                     draaien(botsAuto);
@@ -38,16 +55,16 @@ class Kassa {
                     draaien(spin);
                     break;
                 case "3":
-                    draaien(spiegelpaleis);
+                    draaien(spiegelPaleis);
                     break;
                 case "4":
-                    System.out.println("Spookhuis");
+                    draaien(spookhuis);
                     break;
                 case "5":
-                    System.out.println("Hawaii");
+                    draaien(hawaii);
                     break;
                 case "6":
-                    System.out.println("Ladderklimmen");
+                    draaien(ladderKlimmen);
                     break;
             }
         }
