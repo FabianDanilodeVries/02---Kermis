@@ -14,4 +14,8 @@ public class Attractie {
         attractieOmzet = omzet;
         attractieOppervlakte = oppervlakte;
     }
+    interface GokAttractie {
+        void kansSpelBelastingBetalen();
+        double roundToTwoDecimals(double i);
+    }
 }
