@@ -28,7 +28,7 @@ class Kassa {
                     }
                     System.out.println("Er zijn totaal " + totaalAantalKaartjes + " kaartjes verkocht");
                     System.out.println("De totale omzet is: " + getTotaleOmzet() + " euro");
-                    System.out.println(((teBetalenBelasting > 0) ? "Er staat nog " + teBetalenBelasting + " aan de kant voor de belasting" : "Alle belasting is afbetaald"));
+                    System.out.println(((teBetalenBelasting > 0) ? "Er is nog " + roundToTwoDecimals(teBetalenBelasting) + " gereserveerd voor de belasting" : "Alle belasting is afbetaald"));
                     break;
                 case "o":
                     vraagOmOmzet();
