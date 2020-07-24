@@ -11,16 +11,6 @@ class Kassa {
     LadderKlimmen ladderKlimmen = new LadderKlimmen("Ladder klimmen", 5.0, 0,0,50);
     Attractie[] attracties = { botsAuto, spin, spiegelPaleis, spookhuis, hawaii, ladderKlimmen };
 
-    void draaien(Attractie keuze) {
-        if (keuze instanceof RisicoRijkeAttracties) {
-            ((RisicoRijkeAttracties) keuze).aantalKeerGedraait++;
-        }
-        System.out.println(keuze.attractieNaam + " draait");
-        keuze.aantalKaartjes++;
-        totaalAantalKaartjes++;
-        keuze.attractieOmzet += keuze.attractiePrijs;
-    }
-
     void starten() {
         boolean doorgaan = true;
         while (doorgaan) {
@@ -79,8 +69,17 @@ class Kassa {
             }
         }
     }
+    void draaien(Attractie keuze) {
+        if (keuze instanceof RisicoRijkeAttracties) {
+            ((RisicoRijkeAttracties) keuze).aantalKeerGedraait++;
+        }
+        System.out.println(keuze.attractieNaam + " draait");
+        keuze.aantalKaartjes++;
+        totaalAantalKaartjes++;
+        keuze.attractieOmzet += keuze.attractiePrijs;
+    }
     String vraagOmAttractieKeuze() {
-        System.out.println("Welke attractie wil je bedienen?");
+        System.out.println("\r\nWelke attractie wil je bedienen?");
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
