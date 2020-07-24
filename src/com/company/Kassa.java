@@ -104,7 +104,7 @@ class Kassa {
         for (Attractie keuze : attracties) {
             totaleOmzet += keuze.attractieOmzet;
         }
-        return totaleOmzet;
+        return roundToTwoDecimals(totaleOmzet);
     }
     public double roundToTwoDecimals(double i) {
         return Math.round(i * 100.0)/100.0;
