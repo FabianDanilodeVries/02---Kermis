@@ -16,6 +16,5 @@ public class Attractie {
     }
     interface GokAttractie {
         void kansSpelBelastingBetalen();
-        double roundToTwoDecimals(double i);
     }
 }

@@ -5,14 +5,7 @@ public class Spin extends RisicoRijkeAttracties implements Attractie.GokAttracti
         super(naam, prijs, kaartjes, omzet, oppervlakte, aantalKeerGedraait, draaiLimiet);
     }
     public void kansSpelBelastingBetalen() {
-        if (attractieOmzet > 0) {
-            System.out.println("er is " + roundToTwoDecimals(attractieOmzet * 0.3) + " euro betaald over de omzet van " + attractieNaam);
-            attractieOmzet -= roundToTwoDecimals(attractieOmzet * 0.3);
-        } else {
-            System.out.println(attractieNaam + " heeft geen omzet gemaakt");
-        }
-    }
-    public double roundToTwoDecimals(double i) {
-        return Math.round(i * 100.0)/100.0;
+        Kassa.teBetalenBelasting += (attractiePrijs * 0.3);
+        attractieOmzet += (attractiePrijs - (attractiePrijs * 0.3));
     }
 }

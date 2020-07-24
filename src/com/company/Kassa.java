@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 class Kassa {
     int totaalAantalKaartjes;
+    public static double teBetalenBelasting;
     BotsAuto botsAuto = new BotsAuto("Botsauto's", 2.5, 0,0, 50);
     Spin spin = new Spin("Spin", 2.25, 0,0,50, 0, 5);
     SpiegelPaleis spiegelPaleis = new SpiegelPaleis("Spiegel paleis", 2.75, 0,0,50);
@@ -10,6 +11,8 @@ class Kassa {
     Hawaii hawaii = new Hawaii("Hawaii", 2.90, 0,0,50, 0, 10);
     LadderKlimmen ladderKlimmen = new LadderKlimmen("Ladder klimmen", 5.0, 0,0,50);
     Attractie[] attracties = { botsAuto, spin, spiegelPaleis, spookhuis, hawaii, ladderKlimmen };
+    BelastingInspecteur belastingInspecteur = new BelastingInspecteur(0, 0);
+
 
     void starten() {
         boolean doorgaan = true;
@@ -20,11 +23,12 @@ class Kassa {
                     doorgaan = false;
                     for(Attractie i : attracties) {
                         if (i.aantalKaartjes > 0) {
-                            System.out.println(i.attractieNaam + " - Kaartjes: " + i.aantalKaartjes + ", Omzet: " + i.attractieOmzet + " euro");
+                            System.out.println(i.attractieNaam + " - Kaartjes: " + i.aantalKaartjes + ", Omzet: " + roundToTwoDecimals(i.attractieOmzet) + " euro");
                         }
                     }
                     System.out.println("Er zijn totaal " + totaalAantalKaartjes + " kaartjes verkocht");
                     System.out.println("De totale omzet is: " + getTotaleOmzet() + " euro");
+                    System.out.println(((teBetalenBelasting > 0) ? "Er staat nog " + teBetalenBelasting + " aan de kant voor de belasting" : "Alle belasting is afbetaald"));
                     break;
                 case "o":
                     vraagOmOmzet();
@@ -37,8 +41,7 @@ class Kassa {
                     hawaii.opstellingsKeuring();
                     break;
                 case "b":
-                    spin.kansSpelBelastingBetalen();
-                    ladderKlimmen.kansSpelBelastingBetalen();
+                    belastingInspecteur.belastingOphalen();
                     break;
                 case "1":
                     draaien(botsAuto);
@@ -70,13 +73,17 @@ class Kassa {
         }
     }
     void draaien(Attractie keuze) {
+        if (keuze instanceof Attractie.GokAttractie) {
+            ((Attractie.GokAttractie) keuze).kansSpelBelastingBetalen();
+        } else {
+            keuze.attractieOmzet += keuze.attractiePrijs;
+        }
         if (keuze instanceof RisicoRijkeAttracties) {
             ((RisicoRijkeAttracties) keuze).aantalKeerGedraait++;
         }
         System.out.println(keuze.attractieNaam + " draait");
         keuze.aantalKaartjes++;
         totaalAantalKaartjes++;
-        keuze.attractieOmzet += keuze.attractiePrijs;
     }
     String vraagOmAttractieKeuze() {
         System.out.println("\r\nWelke attractie wil je bedienen?");
@@ -90,6 +97,7 @@ class Kassa {
             }
         }
         System.out.println("Totale omzet: " + getTotaleOmzet() + " euro");
+        System.out.println("Gereserveerd voor belasting: " + roundToTwoDecimals(teBetalenBelasting));
     }
     void vraagOmAantalKaartjes() {
         for(Attractie i : attracties) {
